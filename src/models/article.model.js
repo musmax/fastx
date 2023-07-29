@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const {User} = require('./user.model')
+
 const articleSchema = new mongoose.Schema({
   authorId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -20,14 +20,16 @@ const articleSchema = new mongoose.Schema({
     required: true,
     maxlength: 255,
   },
-  mediaIds: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Media',
-  }],
+  mediaIds: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Media',
+    },
+  ],
   categories: {
     type: Array,
     validate: {
-      validator: function (v) {
+      validator(v) {
         return v.length > 0;
       },
       message: 'An article should have at least one category',

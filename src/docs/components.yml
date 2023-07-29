@@ -19,6 +19,130 @@ components:
         name: fake name
         role: user
 
+    Order:
+      type: object
+      properties:
+        id:
+          type: string
+        productId:
+          type: string
+        partnerId:
+          type: string
+        deliveryId:
+          type: string
+        pickupId:
+          type: string
+      example:
+        id: 5ebac534954b54139806c112
+        productId: 5ebac534954b54139806c112
+        partnerId: 5ebac534954b54139806c112
+        deliveryId: 5ebac534954b54139806c112
+        pickupId: 5ebac534954b54139806c112
+
+    PickUpAddress:
+      type: object
+      properties:
+        id:
+          type: string
+        flatNumber:
+          type: string
+        houseNumber:
+          type: string
+        street:
+          type: string
+        town:
+          type: string
+        city:
+          type: string
+        lga:
+          type: string
+        state:
+          type: string
+      example:
+        id: 5ebac534954b54139806c112
+        flatNumber: 12B
+        houseNumber: 45
+        street: Burdillion view estate
+        town: Ikoyi
+        city: Lagos Island
+        lga: Lagos Island
+        state: Lagos state
+
+    DeliveryAddress:
+      type: object
+      properties:
+        id:
+          type: string
+        flatNumber:
+          type: string
+        houseNumber:
+          type: string
+        street:
+          type: string
+        town:
+          type: string
+        city:
+          type: string
+        lga:
+          type: string
+        state:
+          type: string
+        receiverPhoneNumber:
+          type: array
+        receiverName:
+          type: string
+      example:
+        id: 5ebac534954b54139806c112
+        flatNumber: 12B
+        houseNumber: 45
+        street: Burdillion view estate
+        town: Ikoyi
+        city: Lagos Island
+        lga: Lagos Island
+        state: Lagos state
+        receiverPhoneNumber: ['098887654321', '1234567890']
+        receiverName: Mr Tinunu Bola
+
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+        item:
+          type: string
+        color:
+          type: string
+        vehicleType:
+          type: string
+          enum: [car, boat, lorry, bike, bicycle]
+        description:
+          type: string
+        weightOfItem:
+          type: string
+        numberOfItem:
+          type: number
+        insurance:
+          type: boolean
+        productForm:
+          type: string
+          enum: [new, old, used]
+        mediaIds:
+          type: string
+        productUsefulness:
+          type: string
+      example:
+        id: 5ebac534954b54139806c112
+        item: Samsung A03s
+        color: red
+        vehicleType: lorry
+        description: this is a good phone ooo
+        weightOfItem: 5kg
+        numberOfItem: 12
+        insurance: false
+        productForm: new
+        mediaIds: 5ebac534954b54139806c112
+        productusefulness: this is used for communication
+
     Token:
       type: object
       properties:

@@ -15,6 +15,18 @@ const createUser = async (userBody) => {
 };
 
 /**
+ * Create a Partner
+ * @param {Object} userBody
+ * @returns {Promise<User>}
+ */
+const createPartner = async (userBody) => {
+  if (await User.isEmailTaken(userBody.email)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
+  }
+  return User.create(userBody);
+};
+
+/**
  * Query for users
  * @param {Object} filter - Mongo filter
  * @param {Object} options - Query options
@@ -86,4 +98,5 @@ module.exports = {
   getUserByEmail,
   updateUserById,
   deleteUserById,
+  createPartner,
 };

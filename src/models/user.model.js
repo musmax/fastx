@@ -2,22 +2,27 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const { toJSON, paginate } = require('./plugins');
-const { roles } = require('../config/roles');
 
 const userSchema = mongoose.Schema(
   {
-    name: {
+    firstName: {
       type: String,
-      required: true,
       trim: true,
     },
-    phone: {
-      type : String,
+    lastName: {
+      type: String,
+      trim: true,
+    },
+    otherName: {
+      type: String,
+      trim: true,
+    },
+    phoneNumber: {
+      type: String,
       maxlength: 255,
     },
     email: {
       type: String,
-      required: true,
       unique: true,
       trim: true,
       lowercase: true,
@@ -27,13 +32,25 @@ const userSchema = mongoose.Schema(
         }
       },
     },
-    mediaIds: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Media',
-    }],
+    BVN: {
+      type: Number,
+    },
+    identification: {
+      type: String,
+    },
+    locationGeometry: {
+      type: [String],
+    },
+    vehicleType: {
+      type: String,
+      enum: ['car', 'bicycle', 'bike', 'lorry', 'bus', 'boat', 'ship'],
+    },
+    profileImage: {
+      type: String,
+      trim: true,
+    },
     password: {
       type: String,
-      required: true,
       trim: true,
       minlength: 8,
       validate(value) {
@@ -45,9 +62,14 @@ const userSchema = mongoose.Schema(
     },
     role: {
       type: String,
-      enum: roles,
       default: 'user',
     },
+    mediaIds: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Media',
+      },
+    ],
     isEmailVerified: {
       type: Boolean,
       default: false,

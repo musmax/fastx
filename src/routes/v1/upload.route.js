@@ -5,7 +5,7 @@ const upload = require('../../config/multer');
 
 const router = express.Router();
 
-router.route('/').post( upload.single('link'), uploadController.uploadFile);
+router.route('/').post(upload.single('link'), uploadController.uploadFile);
 
 module.exports = router;
 

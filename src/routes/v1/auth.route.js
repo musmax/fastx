@@ -2,11 +2,14 @@ const express = require('express');
 const validate = require('../../middlewares/validate');
 const authValidation = require('../../validations/auth.validation');
 const authController = require('../../controllers/auth.controller');
+const userController = require('../../controllers/user.controller');
+const userValidation = require('../../validations/user.validation');
 const auth = require('../../middlewares/auth');
 
 const router = express.Router();
 
 router.post('/register', validate(authValidation.register), authController.register);
+router.post('/register/partner', validate(userValidation.createPartner), userController.createPartner);
 router.post('/login', validate(authValidation.login), authController.login);
 router.post('/logout', validate(authValidation.logout), authController.logout);
 router.post('/refresh-tokens', validate(authValidation.refreshTokens), authController.refreshTokens);
@@ -37,11 +40,14 @@ module.exports = router;
  *           schema:
  *             type: object
  *             required:
- *               - name
+ *               - firstName
+ *               - lastName
  *               - email
  *               - password
  *             properties:
- *               name:
+ *               firstName:
+ *                 type: string
+ *               lastName:
  *                 type: string
  *               email:
  *                 type: string
@@ -53,9 +59,89 @@ module.exports = router;
  *                 minLength: 8
  *                 description: At least one number and one letter
  *             example:
- *               name: fake name
+ *               firstName: fake name
+ *               lastName: fake name
  *               email: fake@example.com
  *               password: password1
+ *     responses:
+ *       "201":
+ *         description: Created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 user:
+ *                   $ref: '#/components/schemas/User'
+ *                 tokens:
+ *                   $ref: '#/components/schemas/AuthTokens'
+ *       "400":
+ *         $ref: '#/components/responses/DuplicateEmail'
+ */
+
+/**
+ * @swagger
+ * /auth/register/partner:
+ *   post:
+ *     summary: Register as a partner
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - firstName
+ *               - lastName
+ *               - password
+ *               - BVN
+ *               - identification
+ *               - phoneNumber
+ *               - vehicleType
+ *               - locationGeometry
+ *             properties:
+ *               firstName:
+ *                 type: string
+ *               lastName:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 description: Must be unique.
+ *               password:
+ *                 type: string
+ *                 format: password
+ *                 minLength: 8
+ *                 description: Must contain at least one number and one letter.
+ *               phoneNumber:
+ *                 type: string
+ *               locationGeometry:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *               BVN:
+ *                 type: number
+ *               vehicleType:
+ *                 type: string
+ *                 enum:
+ *                   - car
+ *                   - bike
+ *                   - boat
+ *                   - others
+ *               identification:
+ *                 type: string
+ *             example:
+ *               firstName: "Faker"
+ *               lastName: "Name"
+ *               email: "fake@example.com"
+ *               password: "password1"
+ *               locationGeometry: ["Lagos", "Ibadan", "Rivers"]
+ *               phoneNumber: "09087654321"
+ *               vehicleType: "boat"
+ *               BVN: 1234567891
+ *               identification: "www.example.com/wwwwwwww.jpg"
+ *
  *     responses:
  *       "201":
  *         description: Created
